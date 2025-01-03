@@ -1,0 +1,27 @@
+.menu-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .menu-card {
+    width: 400px; /* Ancho de las tarjetas */
+    height: 300px; /* Altura de las tarjetas */
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  mat-card-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  mat-card-header mat-icon {
+    font-size: 40px; /* Tamaño del ícono */
+    margin-right: 10px;
+  }
