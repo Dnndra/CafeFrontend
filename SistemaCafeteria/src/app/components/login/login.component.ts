@@ -16,7 +16,7 @@ export class LoginComponent {
 
   onLogin() {
     if (this.authService.login(this.username, this.password)) {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/purchase']);
     } else {
       alert('Invalid credentials');
     }

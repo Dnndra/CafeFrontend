@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<ng-container *ngIf="showSidebar">
+    <app-menu></app-menu>
+  </ng-container>
+  <ng-container *ngIf="!showSidebar">
+    <router-outlet></router-outlet>
+  </ng-container>
