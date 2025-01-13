@@ -1,0 +1,89 @@
+.consumption-container {
+    padding: 16px;
+  }
+  
+  .consumption-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .client-details {
+    font-size: 1.2em;
+  }
+  
+  .product-filter {
+    margin-bottom: 16px;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center; /* Centrar horizontalmente */
+  }
+  
+  .product-item {
+    border: 1px solid #ccc;
+    padding: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 150px;
+    transition: background-color 0.3s;
+  }
+  
+  .product-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .consumption-summary {
+    margin-top: 16px;
+  }
+  
+  .subtotal {
+    margin-top: 16px;
+    font-size: 1.5em;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  button {
+    font-size: 1.2em;
+    padding: 12px 24px;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .subtotal {
+    margin-top: 20px;
+    font-size: 1.2em;
+  }
+  

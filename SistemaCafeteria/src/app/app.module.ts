@@ -26,18 +26,24 @@ import { AuthService } from './services/auth.service';
 import { MenuModule } from './components/menu/menu.module';
 import { CommonModule } from '@angular/common';
 import { ClientsComponent } from './components/clients/clients.component';
-import { InventoryComponent } from './components/inventory/inventory.component';
 import { AddClientDialogComponent } from './components/clients/add-client-dialog/add-client-dialog.component';
 import { EditClientDialogComponent } from './components/clients/edit-client-dialog/edit-client-dialog.component';
 import { DataService } from './services/data.service';
 import { UsersComponent } from './components/users/users.component';
-
+import { ConfirmDeleteDialogComponent } from './components/clients/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ProductsComponent } from './components/products/products.component';
+import { AddProductDialogComponent } from './components/products/add-product-dialog/add-product-dialog.component';
+import { EditProductDialogComponent } from './components/products/edit-product-dialog/edit-product-dialog.component';
+import { ConfirmDeleteProductComponent } from './components/products/confirm-delete-product/confirm-delete-product.component';
+import { AddTagDialogComponent } from './components/products/add-tag-dialog/add-tag-dialog.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'menu', component: MenuComponent },
   { path: 'clients', component: ClientsComponent },
   { path: 'purchase', component: ConsumptionComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'products', component: ProductsComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },
 ]
@@ -48,7 +54,13 @@ export const routes: Routes = [
     ConsumptionComponent,
     ClientsComponent,
     AddClientDialogComponent,
-    EditClientDialogComponent
+    EditClientDialogComponent,
+    ConfirmDeleteDialogComponent,
+    ProductsComponent,
+    AddProductDialogComponent,
+    EditProductDialogComponent,
+    ConfirmDeleteProductComponent,
+    AddTagDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -57,6 +69,7 @@ export const routes: Routes = [
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,

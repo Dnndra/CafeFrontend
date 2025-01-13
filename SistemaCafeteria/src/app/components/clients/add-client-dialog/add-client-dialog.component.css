@@ -1,0 +1,28 @@
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-field {
+    margin-bottom: 16px;
+  }
+  
+  .form-field.name-field {
+    width: 100%; /* Ajusta el ancho del campo de texto name */
+  }
+  
+  ::ng-deep .snackbar-success {
+    background-color: #4caf50; /* Verde */
+    color: white;
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  ::ng-deep .snackbar-error {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 8px;
+  }

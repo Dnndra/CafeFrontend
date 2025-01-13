@@ -1,6 +1,80 @@
-
-<div>
-    <h1>Consumption</h1>
-    <p>consumption works!</p>
-</div>
-<p>consumption works!</p>
+<div class="consumption-container">
+    <mat-toolbar color="primary">
+      <span>Registrar Consumo</span>
+    </mat-toolbar>
+  
+    <div class="consumption-actions">
+      <mat-form-field appearance="fill" class="form-field" style="flex: 1;">
+        <mat-label>Buscar por Nombre</mat-label>
+        <input matInput [(ngModel)]="searchTerm" [matAutocomplete]="auto" (input)="filterClients()">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectClient($event.option.value)">
+          <mat-option *ngFor="let client of filteredClients" [value]="client">
+            {{ client.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div *ngIf="selectedClient" class="client-details" style="margin-left: 16px;">
+        <p><strong>Tipo de Cuenta:</strong> {{ selectedClient.accountType }}</p>
+        <p><strong>Saldo:</strong> {{ selectedClient.balance | currency:'GTQ':'symbol':'1.2-2' }}</p>
+      </div>
+    </div>
+  
+    <div *ngIf="selectedClient">
+      <div class="product-filter">
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Filtrar por Categoría</mat-label>
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterProductsByCategory()">
+            <mat-option value="">Todas</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div class="product-list">
+        <div *ngFor="let product of filteredProducts" class="product-item" (click)="addProductToConsumption(product)">
+          <img [src]="'data:image/png;base64,' + product.image" alt="{{ product.name }}" width="100">
+          <div>{{ product.name }}</div>
+          <div>{{ product.price | currency:'GTQ':'symbol':'1.2-2' }}</div>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="consumptionItems.length > 0" class="consumption-summary">
+      <h3>Resumen del Consumo</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of consumptionItems">
+            <td>{{ item.product.name }}</td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="item.quantity"
+                (change)="updateQuantity(item)" 
+                min="1"
+              />
+            </td>
+            <td>{{ item.product.price | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            <td>{{ item.product.price * item.quantity | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            <td>
+              <button (click)="removeProductFromConsumption(item.product)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Subtotal -->
+      <div class="subtotal">
+        <strong>Subtotal: {{ subtotal | currency:'GTQ':'symbol':'1.2-2' }}</strong>
+      </div>
+      <!-- Botón para Registrar -->
+      <button mat-raised-button color="primary" (click)="registerConsumption()">Registrar Consumo</button>
+    </div>
+  </div>

@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Editar Producto</h1>
+<div mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="product.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Precio</mat-label>
+    <input matInput type="number" [(ngModel)]="product.price">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Etiqueta</mat-label>
+    <mat-select [(ngModel)]="product.tag">
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{ tag }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <label class="file-label" for="file-input">Subir Imagen</label>
+  <input id="file-input" type="file" (change)="onFileSelected($event)" class="file-input">
+  <p *ngIf="fileName">Archivo seleccionado: {{ fileName }}</p>
+  <img *ngIf="!fileName && product.image" [src]="product.image" alt="{{product.name}}" width="100">
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button color="primary" (click)="updateProduct()">Guardar</button>
+</div>

@@ -39,12 +39,15 @@
         <td mat-cell *matCellDef="let client"> {{client.balance | currency}} </td>
       </ng-container>
 
-      <!-- Editar Column -->
+      <!-- Editar y Eliminar Column -->
       <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let client">
           <button mat-icon-button (click)="openEditClientDialog(client)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="confirmDeleteClient(client)">
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>

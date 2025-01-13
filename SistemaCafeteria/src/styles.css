@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+.snackbar-success {
+    background-color: #4caf50; /* Verde para éxito */
+    color: white;
+    font-size: 16px;
+    padding: 16px; /* Tamaño más grande */
+    border-radius: 8px;
+  }
+  
+  .snackbar-error {
+    background-color: #f44336; /* Rojo para error */
+    color: white;
+    font-size: 16px;
+    padding: 16px; /* Tamaño más grande */
+    border-radius: 8px;
+  }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
