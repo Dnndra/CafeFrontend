@@ -42,13 +42,15 @@ import { ReportDialogComponent } from './components/clients/report-dialog/report
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { AuthGuard } from './services/auth.guard';
+import { GeneralReportComponent } from './components/clients/general-report/general-report.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'menu', component: MenuComponent },
-  { path: 'clients', component: ClientsComponent },
-  { path: 'purchase', component: ConsumptionComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'clients', component: ClientsComponent,  canActivate: [AuthGuard], data: { role: 'admin' }  },
+  { path: 'purchase', component: ConsumptionComponent,  canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent,  canActivate: [AuthGuard], data: { role: 'admin' }  },
+  { path: 'products', component: ProductsComponent,  canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },
 ]
@@ -67,7 +69,8 @@ export const routes: Routes = [
     ConfirmDeleteProductComponent,
     AddTagDialogComponent,
     ConfirmPurchaseDialogComponent,
-    ReportDialogComponent
+    ReportDialogComponent,
+    GeneralReportComponent
   ],
   imports: [
     HttpClientModule,

@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/custom-theme.scss';
+
 .snackbar-success {
     background-color: #4caf50; /* Verde para éxito */
     color: white;

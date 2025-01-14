@@ -10,6 +10,7 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-de
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import 'jspdf-autotable';
+import { GeneralReportComponent } from './general-report/general-report.component';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -20,7 +21,7 @@ export class ClientsComponent implements OnInit {
   filteredClients: any[] = [];
   searchTerm: string = '';
   accountTypeTerm: string = '';
-  accountTypes: string[] = ['Credito', 'Prepago', 'Abierta'];
+  accountTypes: string[] = ['Wallet', 'Abierta', 'Credito'];
   displayedColumns: string[] = ['name', 'accountType', 'balance', 'edit', 'report'];
 
   constructor(private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
@@ -97,12 +98,60 @@ export class ClientsComponent implements OnInit {
     });
   }
 
+  openGeneralReportDialog(): void {
+    const dialogRef = this.dialog.open(GeneralReportComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.generateAllConsumptionReport(result.startDate, result.endDate);
+      }
+    });
+  }
+
+
+
+generateAllConsumptionReport(startDate: string, endDate: string): void {
+  this.dataService.getAllConsumptionHistory(startDate, endDate).subscribe((data: any[]) => {
+    const now = new Date();
+    const localdate = this.formatDate(now);
+    const doc = new jsPDF();
+    doc.setFontSize(12);
+
+    doc.text(`Reporte de Consumo General`, 10, 10);
+    doc.text(`Fecha de Inicio: ${startDate}`, 10, 20);
+    doc.text(`Fecha de Fin: ${endDate}`, 10, 30);
+    doc.text(`Fecha de elaboración de reporte: ${localdate}`, 10, 40);
+
+    const rows = data.map(item => [
+      this.formatDate(item.date), // Formatear la fecha
+      item.clientName,
+      item.productName,
+      item.quantity,
+      `GTQ ${item.totalPrice.toFixed(2)}` // Mostrar el precio total en formato decimal
+    ]);
+
+    // Calcular el total
+    const total = data.reduce((sum, item) => sum + item.totalPrice, 0);
+
+    // Agregar una fila final con el total
+    rows.push(['', '', '', 'Total', `GTQ ${total.toFixed(2)}`]); // Mostrar el total en formato decimal
+
+    autoTable(doc, {
+      startY: 50, // Especificar la posición de inicio de la tabla
+      head: [['Fecha', 'Cliente', 'Producto', 'Cantidad', 'Precio Total']],
+      body: rows,
+    });
+
+    doc.save(`reporte_consumo_general.pdf`);
+  });
+}
+
   generateReport(clientId: number, startDate: string, endDate: string): void {
     this.dataService.getClientConsumptionHistory(clientId, startDate, endDate).subscribe((data: any[]) => {
       const now = new Date();
-      const localdate = now.toLocaleDateString();
+      const localdate = this.formatDate(now);
       const doc = new jsPDF();
-      doc.setFontSize(8);
+      doc.setFontSize(12);
       const clientName = data[0].clientName; // Obtener el nombre del cliente
 
       doc.text(`Reporte de Consumo - ${clientName}`, 10, 10);
@@ -114,14 +163,14 @@ export class ClientsComponent implements OnInit {
         item.date,
         item.productName,
         item.quantity,
-        `GTQ ${item.totalPrice}`
+        `GTQ ${item.totalPrice.toFixed(2)}` // Mostrar el precio total en formato decimal
       ]);
 
       // Calcular el total
       const total = data.reduce((sum, item) => sum + item.totalPrice, 0);
 
       // Agregar una fila final con el total
-      rows.push(['', '', 'Total', `GTQ ${total}`]);
+      rows.push(['', '', 'Total', `GTQ ${total.toFixed(2)}`]); // Mostrar el total en formato decimal
 
       autoTable(doc, {
         startY: 50, // Especificar la posición de inicio de la tabla
@@ -132,7 +181,16 @@ export class ClientsComponent implements OnInit {
       // Reemplazar espacios y caracteres especiales en el nombre del cliente para el nombre del archivo
       const sanitizedClientName = clientName.replace(/[^a-zA-Z0-9]/g, '_');
 
-      doc.save(`Consumo_${sanitizedClientName}_${localdate}.pdf`);
+      doc.save(`reporte_consumo_${sanitizedClientName}.pdf`);
     });
+  }
+
+  private formatDate(date: Date): string {
+    const d = new Date(date);
+    const month = '' + (d.getMonth() + 1);
+    const day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
   }
 }

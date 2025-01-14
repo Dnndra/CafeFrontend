@@ -2,6 +2,9 @@
     padding: 16px;
   }
   
+  .report-button {
+    margin: 16px; /* Espacio debajo del botón */
+  }
   .client-actions {
     display: flex;
     justify-content: space-between;

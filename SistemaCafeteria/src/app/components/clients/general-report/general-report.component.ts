@@ -4,20 +4,20 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS } from '@angular
 import { NativeDateAdapter } from '@angular/material/core';
 
 @Component({
-  selector: 'app-report-dialog',
-  templateUrl: './report-dialog.component.html',
-  styleUrls: ['./report-dialog.component.css'],
+  selector: 'app-general-report',
+  templateUrl: './general-report.component.html',
+  styleUrls: ['./general-report.component.css'],
   providers: [
     { provide: DateAdapter, useClass: NativeDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
   ]
 })
-export class ReportDialogComponent {
+export class GeneralReportComponent {
   startDate: string | undefined;
   endDate: string | undefined;
 
   constructor(
-    public dialogRef: MatDialogRef<ReportDialogComponent>,
+    public dialogRef: MatDialogRef<GeneralReportComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

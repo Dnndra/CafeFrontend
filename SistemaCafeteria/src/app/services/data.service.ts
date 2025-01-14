@@ -96,5 +96,11 @@ export class DataService {
         }
       });
     }
+
+    getAllConsumptionHistory(startDate: string, endDate: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/consumption/history`, {
+        params: { startDate, endDate }
+      });
+    }
   
 }

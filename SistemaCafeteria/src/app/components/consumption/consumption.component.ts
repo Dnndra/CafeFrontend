@@ -42,7 +42,7 @@ export class ConsumptionComponent implements OnInit {
         this.filteredClients = clients;
       },
       (error: any) => {
-        this.snackBar.open('Error al cargar los clientes', 'Cerrar', {
+        this.snackBar.open(error.error.error, 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -75,7 +75,7 @@ export class ConsumptionComponent implements OnInit {
         this.categories = [...new Set(products.map(product => product.tag))];
       },
       (error: any) => {
-        this.snackBar.open('Error al cargar los productos', 'Cerrar', {
+        this.snackBar.open(error.error.error, 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -91,7 +91,7 @@ export class ConsumptionComponent implements OnInit {
         this.categories = tags.map(tag => tag.tag); // Asegúrate de usar la propiedad correcta del objeto
       },
       (error: any) => {
-        this.snackBar.open('Error al cargar las etiquetas', 'Cerrar', {
+        this.snackBar.open(error.error.error, 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -166,7 +166,7 @@ export class ConsumptionComponent implements OnInit {
             this.reloadClientData(); // Volver a cargar los datos del cliente
           },
           (error: any) => {
-            this.snackBar.open('Error al registrar el consumo', 'Cerrar', {
+            this.snackBar.open(error.error.error, 'Cerrar', {
               duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'top',
@@ -187,7 +187,7 @@ export class ConsumptionComponent implements OnInit {
         this.selectedClient = this.clients.find(client => client.id === this.selectedClient.id);
       },
       (error: any) => {
-        this.snackBar.open('Error al cargar los clientes', 'Cerrar', {
+        this.snackBar.open(error.error.error, 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',

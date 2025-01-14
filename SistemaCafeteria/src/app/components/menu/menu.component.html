@@ -12,6 +12,12 @@
         <mat-icon>menu</mat-icon>
       </button>
       <span>Sistema Cafeteria</span>
+      <span class="spacer"></span>
+      <ng-container *ngIf="authService.isAuthenticated()">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ authService.getUsername() }}</span>
+        <button mat-button (click)="onLogout()">Cerrar Sesión</button>
+      </ng-container>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
