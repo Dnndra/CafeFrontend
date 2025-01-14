@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../services/data.service';
+import { ConfirmPurchaseDialogComponent } from './confirm-purchase-dialog/confirm-purchase-dialog.component';
 
 @Component({
   selector: 'app-consumption',
@@ -12,6 +14,7 @@ export class ConsumptionComponent implements OnInit {
   filteredClients: any[] = [];
   selectedClient: any = null;
   searchTerm: string = '';
+  productSearchTerm: string = '';
   products: any[] = [];
   filteredProducts: any[] = [];
   categories: string[] = [];
@@ -22,6 +25,7 @@ export class ConsumptionComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -68,7 +72,7 @@ export class ConsumptionComponent implements OnInit {
       (products: any[]) => {
         this.products = products;
         this.filteredProducts = products;
-        this.categories = [...new Set(products.map(product => product.category))];
+        this.categories = [...new Set(products.map(product => product.tag))];
       },
       (error: any) => {
         this.snackBar.open('Error al cargar los productos', 'Cerrar', {
@@ -97,12 +101,12 @@ export class ConsumptionComponent implements OnInit {
     );
   }
 
-  filterProductsByCategory(): void {
-    if (this.selectedCategory) {
-      this.filteredProducts = this.products.filter(product => product.category === this.selectedCategory);
-    } else {
-      this.filteredProducts = this.products;
-    }
+  filterProducts(): void {
+    this.filteredProducts = this.products.filter(product => {
+      const matchesCategory = this.selectedCategory ? product.tag === this.selectedCategory : true;
+      const matchesName = this.productSearchTerm ? product.name.toLowerCase().includes(this.productSearchTerm.toLowerCase()) : true;
+      return matchesCategory && matchesName;
+    });
   }
 
   addProductToConsumption(product: any): void {
@@ -138,26 +142,52 @@ export class ConsumptionComponent implements OnInit {
   }
 
   registerConsumption(): void {
-    const consumptionData = {
-      clientId: this.selectedClient.id,
-      products: this.consumptionItems.map(item => ({
-        productId: item.product.id,
-        quantity: item.quantity
-      }))
-    };
+    const dialogRef = this.dialog.open(ConfirmPurchaseDialogComponent);
 
-    this.dataService.registerConsumption(consumptionData).subscribe(
-      (response: any) => {
-        this.snackBar.open('Consumo registrado con éxito', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['success-snackbar']
-        });
-        this.resetConsumption();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const consumptionData = {
+          clientId: this.selectedClient.id,
+          products: this.consumptionItems.map(item => ({
+            productId: item.product.id,
+            quantity: item.quantity
+          }))
+        };
+
+        this.dataService.registerConsumption(consumptionData).subscribe(
+          (response: any) => {
+            this.snackBar.open('Consumo registrado con éxito', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['success-snackbar']
+            });
+            this.resetConsumption();
+            this.reloadClientData(); // Volver a cargar los datos del cliente
+          },
+          (error: any) => {
+            this.snackBar.open('Error al registrar el consumo', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['error-snackbar']
+            });
+          }
+        );
+      }
+    });
+  }
+
+  reloadClientData(): void {
+    this.dataService.getClients().subscribe(
+      (clients: any[]) => {
+        this.clients = clients;
+        this.filteredClients = clients;
+        // Volver a seleccionar el cliente actualizado
+        this.selectedClient = this.clients.find(client => client.id === this.selectedClient.id);
       },
       (error: any) => {
-        this.snackBar.open('Error al registrar el consumo', 'Cerrar', {
+        this.snackBar.open('Error al cargar los clientes', 'Cerrar', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -172,6 +202,7 @@ export class ConsumptionComponent implements OnInit {
     this.consumptionItems = [];
     this.subtotal = 0;
     this.searchTerm = ''; // Limpiar el campo de entrada
+    this.productSearchTerm = ''; // Limpiar el campo de búsqueda de productos
     this.cdr.detectChanges(); // Forzar la detección de cambios
   }
 }

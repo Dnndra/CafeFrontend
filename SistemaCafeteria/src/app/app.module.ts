@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,6 +37,11 @@ import { EditProductDialogComponent } from './components/products/edit-product-d
 import { ConfirmDeleteProductComponent } from './components/products/confirm-delete-product/confirm-delete-product.component';
 import { AddTagDialogComponent } from './components/products/add-tag-dialog/add-tag-dialog.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ConfirmPurchaseDialogComponent } from './components/consumption/confirm-purchase-dialog/confirm-purchase-dialog.component';
+import { ReportDialogComponent } from './components/clients/report-dialog/report-dialog.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'menu', component: MenuComponent },
@@ -60,7 +65,9 @@ export const routes: Routes = [
     AddProductDialogComponent,
     EditProductDialogComponent,
     ConfirmDeleteProductComponent,
-    AddTagDialogComponent
+    AddTagDialogComponent,
+    ConfirmPurchaseDialogComponent,
+    ReportDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -83,9 +90,12 @@ export const routes: Routes = [
     MatToolbarModule,
     RouterModule.forRoot(routes), // Define las rutas aquí
     AppComponent,
-    CommonModule
+    CommonModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+
   ],
   exports:[RouterModule],
-  providers: [AuthService,DataService, provideHttpClient(withFetch())]
+  providers: [AuthService,DataService, provideHttpClient(withFetch()), importProvidersFrom(MatNativeDateModule)]
 })
 export class AppModule { }

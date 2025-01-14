@@ -12,7 +12,7 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class EditClientDialogComponent implements OnInit {
   client: any;
-  accountTypes: string[] = ['Credito', 'Prepago', 'Abierta']; // Define los tipos de cuenta
+  accountTypes: string[] = ['Wallet', 'Abierta', 'Credito']; // Define los tipos de cuenta
 
   constructor(
     public dialogRef: MatDialogRef<EditClientDialogComponent>,

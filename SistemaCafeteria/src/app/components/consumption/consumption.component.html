@@ -23,10 +23,14 @@
       <div class="product-filter">
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Filtrar por Categoría</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterProductsByCategory()">
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterProducts()">
             <mat-option value="">Todas</mat-option>
             <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
           </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-field" style="flex: 1;">
+          <mat-label>Buscar Producto</mat-label>
+          <input matInput [(ngModel)]="productSearchTerm" (input)="filterProducts()">
         </mat-form-field>
       </div>
   
@@ -75,6 +79,8 @@
         <strong>Subtotal: {{ subtotal | currency:'GTQ':'symbol':'1.2-2' }}</strong>
       </div>
       <!-- Botón para Registrar -->
-      <button mat-raised-button color="primary" (click)="registerConsumption()">Registrar Consumo</button>
+      <div class="register-button-container">
+        <button mat-raised-button color="primary" (click)="registerConsumption()">Registrar Consumo</button>
+      </div>
     </div>
   </div>

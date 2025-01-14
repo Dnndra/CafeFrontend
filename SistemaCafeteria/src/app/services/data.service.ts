@@ -87,5 +87,14 @@ export class DataService {
     registerConsumption(consumptionData: { clientId: number, products: { productId: number, quantity: number }[] }): Observable<any> {
       return this.http.post<any>(`${this.apiUrl}/consumption`, consumptionData);
     }
+
+    getClientConsumptionHistory(clientId: number, startDate: string, endDate: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/consumption/client/${clientId}/history`, {
+        params: {
+          startDate,
+          endDate
+        }
+      });
+    }
   
 }

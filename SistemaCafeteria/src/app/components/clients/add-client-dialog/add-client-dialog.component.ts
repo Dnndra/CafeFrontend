@@ -10,7 +10,7 @@ import { DataService } from '../../../services/data.service';
 })
 export class AddClientDialogComponent implements OnInit {
   client: any = {};
-  accountTypes: string[] = ['Credito', 'Prepago', 'Abierta']; // Define los tipos de cuenta
+  accountTypes: string[] =  ['Wallet', 'Abierta', 'Credito']; // Define los tipos de cuenta
 
   constructor(
     public dialogRef: MatDialogRef<AddClientDialogComponent>,
